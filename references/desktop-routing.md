@@ -43,6 +43,16 @@ Do not require a Codex-only shell or assume another agent sees the same tools.
 7. Log the actual transport and device identifier in the page handoff.
    Device IDs should remain in local production logs, not public repos.
 
+## Verified Affinity MCP access through Desktop Commander
+
+After Affinity by Canva 3.3.3.5004 was started and its MCP server enabled,
+remote Desktop Commander terminal access successfully connected using the
+bundled `scripts/affinity_mcp_cli.mjs` client. It executed authorized
+in-application scripts and saved native files, and can also request
+`render_spread`. This is a real Affinity MCP execution surface, not
+arbitrary GUI clicking. No third-party bridge installation is necessary
+for this tested path. See [live MCP runbook](live-affinity-mcp.md).
+
 ## Windows preflight
 
 Run this read-only probe through an authorized Desktop Commander terminal:

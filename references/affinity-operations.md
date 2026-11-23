@@ -101,6 +101,15 @@ speaker. For a custom hand-lettered SFX, keep it independent from speech.
 
 ## Export
 
+**Tested 2026-11-23:** Affinity 3.3.3.5004 imported a Mangaka compositor
+SVG with editable panel images, vectors, and separate text, and preserved
+20 objects after native save/reopen. However, default PNG export yielded
+1600 x 1100 from an 800 x 550 source. Specify the required pixels with
+`doc.export(path, preset, FileExportArea.createForWholeDocument(),
+new Size(width,height))`, then reopen the actual output and compare
+it to `composite.png`. See [live MCP runbook](live-affinity-mcp.md).
+
+
 Use the actual **Export** interface and document `Area` selector.
 The official Affinity export panel supports page/spread selections, PDF
 compatibility, ICC embedding, DPI/downsampling options, include bleed

@@ -43,6 +43,16 @@ the installed build before trusting a code example.
 
 ## Path B: via Desktop Commander on the authorized Windows PC
 
+**Verified direct route, no third-party install:** use the checkout's
+`node scripts/affinity_mcp_cli.mjs probe` and
+`node scripts/affinity_mcp_cli.mjs inspect` on the Windows device.
+This holds a local SSE session and reads the SDK preamble before scripts,
+so agents with only Desktop Commander shell access can invoke Affinity
+MCP through a tested local client. The comprehensive runbook is
+[live Affinity MCP](live-affinity-mcp.md). A connected first-party MCP
+client remains preferred when the agent host exposes it.
+
+
 If Codex is unavailable, Claude lacks direct Affinity tools, or the
 agent runs on another machine, use Remote Desktop Commander MCP to
 select the authorized **online device**. Use that device's terminal

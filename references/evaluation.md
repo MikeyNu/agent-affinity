@@ -44,6 +44,13 @@ native save functionality.
 
 ## Real application smoke scenarios
 
+For dated, actually executed Windows 3.3.3.5004 results, including
+live MCP, verified `userDescription`, native reopens, SVG import, and
+an explicit-size export fix, read [the live verification](../VERIFICATION.md)
+and [the operator runbook](live-affinity-mcp.md). These do not by
+assumption certify a complete Gatsheni chapter.
+
+
 Run on an authorized desktop after Affinity is fully installed:
 
 1. **Fresh native file:** create shapes, text and pixel art, save, close,

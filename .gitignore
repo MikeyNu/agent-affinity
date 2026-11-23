@@ -23,3 +23,6 @@ test-output/
 *.ttf
 *.otf
 !docs/**/*.png
+
+# Disposable native Affinity smoke documents and generated test media
+work/

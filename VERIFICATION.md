@@ -80,3 +80,83 @@ claim a hosted CI pass that did not occur.
 Until these have evidence, **the published skill is structurally and
 integration tested, but native Affinity operations are not yet
 end-to-end validated**. Use the skill with this explicit boundary.
+
+
+## 2026-11-23, later live Affinity MCP verification
+
+**The user enabled Affinity's MCP server after the first record above.**
+The earlier `NOT AVAILABLE` connectivity result is now superseded for
+this Windows device, without changing the truth of the earlier run.
+
+| Live check | Actual result | Status |
+|---|---|---|
+| Windows process | Running `Canva.Affinity 3.3.3.5004` | PASS |
+| Local SSE | `http://[::1]:6767/sse`, protocol `2025-11-25` | PASS |
+| SDK preamble | Read 6,010 characters in the same session | PASS |
+| MCP tool discovery | 11 tools, including `execute_script` and `render_spread` | PASS |
+| Read-only document inspection | Reported no document before test | PASS |
+| Native document creation | Disposable 640 x 960 pixel master saved to `.af` | PASS |
+| Editing and labels | Two vector rectangles, one native text frame; persisted `userDescription` IDs | PASS |
+| Native file round trip | Closed and reopened; three objects editable and unlocked with exact text | PASS |
+| App renderer | `render_spread` returned a local JPEG; no image sent to chat | PASS |
+| Plain native export | 640 x 960 PNG, one-page PDF; text `Hello from Affinity.` was extractable | PASS |
+| Real Mangaka compositor | Created 5-file export from two synthetic approved panel graphics | PASS |
+| Compositor validation | Contract passed, source hashes and dialogue `D1` matched | PASS |
+| SVG import into Affinity | 20 separate editable objects, including panel images, borders and text | PASS |
+| SVG import native round trip | All 20 nodes remained editable with identical hierarchy and descriptions | PASS |
+| Imported dialogue | `We move at ` + `sunrise.` reconstructed the exact source utterance | PASS |
+| Default PNG preset | Produced 1600 x 1100 from an 800 x 550 source | DEFECT FOUND |
+| Explicit `Size` export | PNG returned 800 x 550 after passing `new Size(800,550)` | DEFECT FIXED |
+| Exported PDF | One page, extracted text reconstructs `We move at sunrise.` | PASS |
+| Geometric parity | Source vs exact-size Affinity PNG RGB MAE approximately 3.4997/255 | MEASURED |
+| Significant differences | 3.96% of pixels had a channel difference greater than 12 | MEASURED |
+| Full user chapter quality | No Gatsheni production assets or chapter used in this smoke test | NOT TESTED |
+| Full hosted CI | GitHub account billing issue prevented runner startup | BLOCKED |
+
+### Important SDK conclusions
+
+- Native labels require `node.userDescription`. The attempted
+  `node.name` assignment did not work in this installed SDK.
+- The Affinity `FrameTextNode` supports `node.setText(...)`. The
+  full text bounding box must be inspected to catch overflow.
+- `doc.saveAs`, `doc.save`, `doc.close` and `Document.load`
+  completed on **disposable** documents and preserved editability.
+- An imported SVG sentence can be split into separate `ArtTextNode`s.
+  The original Mangaka dialogue ledger is authoritative.
+- Use `FileExportOptions.createWithPresetName('PNG')`,
+  `FileExportArea.createForWholeDocument()` and the fourth
+  `new Size(width,height)` parameter in `doc.export`. Reopen the
+  actual output to verify pixel dimensions.
+- The repo now provides `scripts/affinity_mcp_cli.mjs`, a
+  zero-dependency local MCP client, with live-tested handshake,
+  preamble recovery, read-only inspection, script execution,
+  SDK documentation access and render-to-local-file.
+- This tests the transport and source interchange, **not** complete
+  application-level masking, complex lettering, human visual review,
+  printer profiles, or chapter-length production on Gatsheni.
+
+### Smoke artifacts
+
+All synthetic outputs and scripts live in the **ignored** folder
+`C:\Users\USER\Desktop\agent-affinity\work\affinity-live-smoke`.
+They include `affinity-smoke-001.af`,
+`mangaka-svg-import.af`, `mangaka-affinity-export-exact.png`,
+`mangaka-affinity-export.pdf` and the synthetic source fixture.
+Do not commit these screenshots, images, PDFs, document masters, or
+system fonts. The test did not modify the active Gatsheni workspace.
+
+The skill's full operation sequence and the non-default export fix are
+documented in [references/live-affinity-mcp.md](references/live-affinity-mcp.md).
+
+
+### Disposable-session cleanup recovery
+
+The first cleanup script successfully closed one owned disposable document,
+then raised `Error: DISPOSED` because it tried to read
+`doc.sessionUuid` **after** `doc.close()`. The agent did not blindly
+rerun the write. It inspected the live `Document.all` list, confirmed
+only the second owned test document remained with no unsaved changes,
+corrected the script to cache the UUID before closing, and then closed
+that document successfully. No other documents remained open and
+no user-owned document was changed. The regression is documented in
+`references/recovery.md` and `references/live-affinity-mcp.md`.

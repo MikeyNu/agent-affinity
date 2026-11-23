@@ -19,6 +19,7 @@ assets, zero-out stale manifests or overwrite active agent files.
 | Wrong balloon speaker | Ledger IDs and tails | Correct lettering only, verify entire page |
 | Mask hides face | Source critical region, crop | Reframe clip or choose approved art variation |
 | Native file corrupted | Version history, source digest | Reopen earlier version, rebuild derivative |
+| Closed SDK document handle | Reading `sessionUuid` after `doc.close()` throws `DISPOSED` | Snapshot UUID and state before close; inspect live `Document.all` before retry |
 | Linked art missing | Resource Manager paths, project move | Relink same SHA-verified source file |
 | Export altered appearance | Output profile, font, rasterization | Change export options, compare new output |
 | App hangs | Running process, unsaved changes | Check status before terminating; recovery copy |

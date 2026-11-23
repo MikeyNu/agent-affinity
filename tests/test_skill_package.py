@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import re
+import shutil
+import subprocess
 from pathlib import Path
 import unittest
 
@@ -56,6 +58,7 @@ class PackageTests(unittest.TestCase):
             "references/scripting.md": ["JavaScript", "beta", "read-only"],
             "references/mangaka-integration.md": ["compose_page.py", "composite.png", "art_sha256"],
             "references/evaluation.md": ["not_tested", "Affinity", "tests"],
+            "references/live-affinity-mcp.md": ["Desktop Commander", "userDescription", "Size", "SVG", "MCP"],
         }
         for path, needles in topics.items():
             text = (ROOT / path).read_text(encoding="utf-8")
@@ -66,8 +69,26 @@ class PackageTests(unittest.TestCase):
         extensions = {".png", ".jpg", ".jpeg", ".webp", ".psd", ".ora", ".af", ".afpub"}
         unexpected = [str(x.relative_to(ROOT))
                       for x in ROOT.rglob("*") if x.is_file()
-                      and ".git" not in x.parts and x.suffix.lower() in extensions]
+                      and ".git" not in x.parts and "work" not in x.relative_to(ROOT).parts
+                      and x.suffix.lower() in extensions]
         self.assertEqual(unexpected, [])
+
+
+    def test_mcp_cli_syntax_and_offline_help(self):
+        node = shutil.which("node")
+        if node is None:
+            self.skipTest("Node.js is not installed")
+        cli = ROOT / "scripts" / "affinity_mcp_cli.mjs"
+        self.assertTrue(cli.is_file())
+        syntax = subprocess.run([node, "--check", str(cli)],
+                                capture_output=True, text=True, timeout=15)
+        self.assertEqual(syntax.returncode, 0, syntax.stderr)
+        result = subprocess.run([node, str(cli), "help"],
+                                capture_output=True, text=True, timeout=15,
+                                cwd=str(ROOT))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("probe", result.stdout)
+        self.assertIn("--allow-write", result.stdout)
 
 
 if __name__ == "__main__":

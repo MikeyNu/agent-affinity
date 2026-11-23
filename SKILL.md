@@ -66,6 +66,7 @@ before changing artwork. Do not revise canon merely to make a page easier.
 | Use with Mangaka manifests, approved panels and hashes | [Mangaka handoff](references/mangaka-integration.md) |
 | Plan a page, panels, typography, layer structure, scrolling | [Comic assembly](references/comic-production.md) |
 | JavaScript SDK, scripting or native Affinity MCP | [Scripting and SDK](references/scripting.md) |
+| Tested local MCP under Desktop Commander, exact export size and live QA | [Live MCP runbook](references/live-affinity-mcp.md) |
 | Visual QA, reproducible revisions and final publication | [Acceptance and QA](references/qa-and-publication.md) |
 | Locked UI, corrupt files, source change or missing capability | [Failure and recovery](references/recovery.md) |
 | Tests, fixtures, acceptance tiers and live test cases | [Evaluation](references/evaluation.md) |

@@ -46,3 +46,5 @@ jobs:
         run: node --check scripts/affinity_mcp_inspect.js
       - name: Windows localhost probe syntax
         run: node --check scripts/affinity_mcp_probe.mjs
+      - name: Direct Affinity MCP client syntax
+        run: node --check scripts/affinity_mcp_cli.mjs

@@ -66,6 +66,20 @@ change the document. Runtime success requires an actual Affinity run
 and recorded result. A `node --check` pass only checks JavaScript
 syntax, not Affinity module availability.
 
+## Live Windows SDK compatibility verified
+
+A real Windows 3.3.3.5004 session confirmed `Document.create`,
+`doc.saveAs`, `doc.close`, `Document.load`, `doc.save`,
+`ShapeNodeDefinition` and `FrameTextNodeDefinition`, and verified
+that `node.userDescription` persists as a layer label across native
+save/reopen. `node.name` did not label the tested objects and must
+not be used for that purpose. `TextNode.setText(str)` is supported.
+
+For exact-size PNG export use `FileExportArea.createForWholeDocument()`
+and pass `new Size(width,height)` from `/geometry.js` as the fourth
+argument to `doc.export`. Default PNG options doubled the dimensions
+of a Mangaka SVG sample; see [the live test](live-affinity-mcp.md).
+
 ## Security and idempotency
 
 Treat AI-written scripts as potentially unsafe code. Script permissions

@@ -77,6 +77,24 @@ still need an application session. On Windows, use `py -3.14` when the
 installed Windows font outside its project directory, explicitly pass
 `--font-root C:/Windows/Fonts` to the contract commands.
 
+## Live MCP tested on Windows
+
+Affinity 3.3.3.5004 was tested through the authorized Desktop Commander
+machine using the built-in Node.js MCP client, with no additional packages.
+Once the user's Affinity MCP Server is enabled, agents can run these from
+this repo on the Windows desktop:
+
+```powershell
+node scripts/affinity_mcp_cli.mjs probe
+node scripts/affinity_mcp_cli.mjs inspect
+node scripts/affinity_mcp_cli.mjs docs document.js createFromOptions
+node scripts/affinity_mcp_cli.mjs render DOCUMENT_UUID 0 work/inspect.jpg
+```
+
+See [the live MCP runbook](references/live-affinity-mcp.md) for authorized
+script execution, object naming, native save/reopen, Mangaka SVG import and
+mandatory explicit pixel dimensions on PNG export.
+
 ## Evidence levels
 
 | Level | Claim justified |
