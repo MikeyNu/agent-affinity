@@ -20,7 +20,7 @@ class PackageTests(unittest.TestCase):
         self.assertIn("offline", body.lower())
 
     def test_referenced_markdown_files_exist(self):
-        paths = [ROOT / "README.md", ROOT / "SKILL.md"]
+        paths = [ROOT / "README.md", ROOT / "SKILL.md", ROOT / "VERIFICATION.md"]
         paths.extend(sorted((ROOT / "references").glob("*.md")))
         self.assertGreaterEqual(len(paths), 8)
         failures = []
@@ -35,7 +35,7 @@ class PackageTests(unittest.TestCase):
         self.assertEqual(failures, [], "\n".join(failures))
 
     def test_no_em_dash_or_private_artifacts_in_repo(self):
-        roots = ("SKILL.md", "README.md", "agents", "references", "scripts", "tests")
+        roots = ("SKILL.md", "README.md", "VERIFICATION.md", "agents", "references", "scripts", "tests")
         for part in roots:
             path = ROOT / part
             for item in ([path] if path.is_file() else path.rglob("*")):

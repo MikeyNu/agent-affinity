@@ -70,6 +70,13 @@ native text and masks.
 - If no machine access is possible, produce the validated manifest, layout
   plan and a resumable handoff. No fake click/screenshot/commit claims.
 
+See [VERIFICATION.md](VERIFICATION.md) for the dated test record, the
+GitHub Actions billing blocker and native Affinity smoke tests that
+still need an application session. On Windows, use `py -3.14` when the
+`python` alias points to the Microsoft Store. When the layout uses an
+installed Windows font outside its project directory, explicitly pass
+`--font-root C:/Windows/Fonts` to the contract commands.
+
 ## Evidence levels
 
 | Level | Claim justified |

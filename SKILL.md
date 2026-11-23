@@ -189,6 +189,10 @@ identify actual human/agent visual inspection and any still-unverified
 requirements. Update project `HANDOFF.md` with current revision, native
 path, page IDs, source hashes, open issues, next action and publisher state.
 
+Before claiming this skill is battle tested on an installation, read the
+[dated verification record](VERIFICATION.md). Do not extrapolate
+filesystem or compositor passes into native Affinity GUI passes.
+
 ## Minimum agent completion report
 
 Report: route and device, Affinity version or unknown, Mangaka source
