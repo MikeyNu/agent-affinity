@@ -1,0 +1,4 @@
+interface:
+  display_name: "Affinity Comic Production"
+  short_description: "Use Affinity to assemble, letter, QA and publish verified manga pages."
+  default_prompt: "Use the affinity skill and agent-mangaka skill together. Discover the authorized desktop route including Desktop Commander MCP fallback, validate accepted panel inputs, edit with Affinity only through verified capabilities, preserve exact dialogue and native layers, and report evidence and unresolved issues."

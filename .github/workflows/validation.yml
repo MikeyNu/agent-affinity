@@ -1,0 +1,48 @@
+name: Validate Affinity agent skill
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract-and-integration:
+    name: "${{ matrix.os }} / Python ${{ matrix.python }}"
+    runs-on: "${{ matrix.os }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.12", "3.14"]
+    env:
+      MANGAKA_REPO: .ci-mangaka
+    steps:
+      - name: Checkout Affinity skill
+        uses: actions/checkout@v4
+      - name: Checkout real Mangaka compositor
+        uses: actions/checkout@v4
+        with:
+          repository: MikeyNu/agent-mangaka
+          path: .ci-mangaka
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "${{ matrix.python }}"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install compositor runtime dependency
+        run: python -m pip install --disable-pip-version-check "Pillow>=10,<13"
+      - name: Verify integration prerequisites
+        run: python -c "import sys; sys.path.insert(0, 'tests'); import test_mangaka_roundtrip as t; assert t.COMPOSITOR and t.COMPOSITOR.is_file(), 'Mangaka composer missing'; assert t.FONT and t.FONT.is_file(), 'Approved system test font missing'; assert t.Image is not None, 'Pillow missing'; print('Real Mangaka compositor and system font ready')"
+      - name: Contract and real compositor integration suite
+        run: python -m unittest discover -s tests -v
+      - name: Affinity SDK JavaScript smoke-script syntax
+        run: node --check scripts/affinity_selection_audit.js
+      - name: Affinity read-only MCP inspection syntax
+        run: node --check scripts/affinity_mcp_inspect.js
+      - name: Windows localhost probe syntax
+        run: node --check scripts/affinity_mcp_probe.mjs
